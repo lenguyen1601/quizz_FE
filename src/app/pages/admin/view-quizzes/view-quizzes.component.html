@@ -23,6 +23,15 @@
     </button>
     <button mat-flat-button color="accent" class="ml20">Update</button>
     <button mat-flat-button color="accent" class="ml20">Attempts</button>
+
+    <button
+      mat-flat-button
+      color="warn"
+      class="ml10"
+      (click)="deleteQuiz(q.qId)"
+    >
+      Delete
+    </button>
   </mat-card-action>
 </mat-card>
 
