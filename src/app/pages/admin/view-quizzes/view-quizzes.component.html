@@ -21,7 +21,14 @@
     <button mat-stroked-button color="accent" class="ml20">
       Questions: {{ q.numberOfQuestions }}
     </button>
-    <button mat-flat-button color="accent" class="ml20">Update</button>
+    <button
+      [routerLink]="'/admin/quiz/' + q.qId"
+      mat-flat-button
+      color="accent"
+      class="ml20"
+    >
+      Update
+    </button>
     <button mat-flat-button color="accent" class="ml20">Attempts</button>
 
     <button
