@@ -30,4 +30,9 @@ export class QuizService {
   public updateQuiz(quiz) {
     return this._http.put(`${baseUrl}/quiz/`, quiz);
   }
+
+  // get quizzes of category
+  public getQuizzesOfCategory(cid) {
+    return this._http.get(`${baseUrl}/quiz/category/${cid}`);
+  }
 }
