@@ -14,7 +14,13 @@
     <p>{{ q.description }}</p>
   </mat-card-content>
   <mat-card-action>
-    <button mat-flat-button color="accent">Questions</button>
+    <button
+      [routerLink]="'/admin/view-questions/' + q.qId + '/' + q.title"
+      mat-flat-button
+      color="accent"
+    >
+      Questions
+    </button>
     <button mat-stroked-button color="accent" class="ml20">
       Max Marks {{ q.maxMarks }}
     </button>
