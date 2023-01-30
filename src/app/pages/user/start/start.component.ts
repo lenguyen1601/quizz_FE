@@ -18,6 +18,7 @@ export class StartComponent implements OnInit {
   attempted = 0;
 
   isSubmit = false;
+  timer: any;
 
   constructor(
     private locationSt: LocationStrategy,
@@ -36,11 +37,14 @@ export class StartComponent implements OnInit {
       (data: any) => {
         this.questions = data;
 
+        this.timer = this.questions.length * 2 * 60;
+
         this.questions.forEach((q) => {
           q['givenAnswer'] = '';
         });
 
         console.log(this.questions);
+        this.startTimer();
       },
       (error) => {
         console.log(error);
@@ -64,27 +68,47 @@ export class StartComponent implements OnInit {
       icon: 'info',
     }).then((e) => {
       if (e.isConfirmed) {
-        //calculation
-        this.isSubmit = true;
-
-        this.questions.forEach((q) => {
-          if (q.givenAnswer == q.answer) {
-            this.correctAnswers++;
-            let marksSingle =
-              this.questions[0].quiz.maxMarks / this.questions.length;
-            this.marksGot += marksSingle;
-          }
-
-          if (q.givenAnswer.trim() != '') {
-            this.attempted++;
-          }
-        });
-
-        console.log('Correct answers' + this.correctAnswers);
-        console.log('Marks got' + this.marksGot);
-        console.log('attempted' + this.attempted);
-        console.log(this.questions);
+        this.evalQuiz();
       }
     });
+  }
+  startTimer() {
+    let t = window.setInterval(() => {
+      //code
+      if (this.timer <= 0) {
+        this.evalQuiz();
+        clearInterval(t);
+      } else {
+        this.timer--;
+      }
+    }, 1000);
+  }
+
+  getFormattedTime() {
+    let mm = Math.floor(this.timer / 60);
+    let ss = this.timer - mm * 60;
+    return `${mm} min: ${ss} sec`;
+  }
+  evalQuiz() {
+    //calculation
+    this.isSubmit = true;
+
+    this.questions.forEach((q) => {
+      if (q.givenAnswer == q.answer) {
+        this.correctAnswers++;
+        let marksSingle =
+          this.questions[0].quiz.maxMarks / this.questions.length;
+        this.marksGot += marksSingle;
+      }
+
+      if (q.givenAnswer.trim() != '') {
+        this.attempted++;
+      }
+    });
+
+    console.log('Correct answers' + this.correctAnswers);
+    console.log('Marks got' + this.marksGot);
+    console.log('attempted' + this.attempted);
+    console.log(this.questions);
   }
 }
